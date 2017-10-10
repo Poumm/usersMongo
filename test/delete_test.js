@@ -21,9 +21,33 @@ describe("deleting a user", () => {
     });
   });
 
-  it("Class method remove", () => {});
+  it("Class method remove", done => {
+    //Remove un ensemble de users selon certain critères
+    User.remove({ name: "Joe" }).then(() => {
+      User.findOne({ name: "Joe" }).then(user => {
+        assert(user === null);
+        done();
+      });
+    });
+  });
 
-  it("Class method findAndRemove", () => {});
+  it("Class method findAndRemove", done => {
+    //Remove un unique user selon certains critères
+    User.findOneAndRemove({ name: "Joe" }).then(() => {
+      User.findOne({ name: "Joe" }).then(user => {
+        assert(user === null);
+        done();
+      });
+    });
+  });
 
-  it("Class method findByIdAndRemove", () => {});
+  it("Class method findByIdAndRemove", done => {
+    //Remove un unique user en fonction de son _id
+    User.findByIdAndRemove(joe._id).then(() => {
+      User.findOne({ name: "Joe" }).then(user => {
+        assert(user === null);
+        done();
+      });
+    });
+  });
 });
