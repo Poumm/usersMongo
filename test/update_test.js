@@ -42,7 +42,12 @@ describe("Updating records", () => {
     assertName(User.findByIdAndUpdate(joe._id, { name: "Alex" }), done);
   });
 
-  it("Icrement postCount of many users by 1", () => {
-    User.update();
+  it("Icrement postCount of many users by 1", done => {
+    User.update({ name: "Joe" }, { $inc: { postCount: 10 } }).then(() =>
+      User.findOne({ name: "Joe" }).then(user => {
+        assert(user.postCount === 10);
+        done();
+      })
+    );
   });
 });
