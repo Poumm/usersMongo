@@ -3,7 +3,7 @@ const assert = require("assert");
 
 describe("Should create user in datatabase", () => {
   it("Save a user", done => {
-    const joe = new User({ name: "joe" });
+    const joe = new User({ name: "Joe" });
 
     joe.save().then(() => {
       //Code qui s'éxécute une fois le save terminé.
