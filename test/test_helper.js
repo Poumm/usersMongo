@@ -18,17 +18,32 @@ before(done => {
 });
 
 /**
+ * astuces
+ * 
+ * mettre it.only permet def aire en sore que seule le test it s'éxécute
+ * 
+ * 
+ */
+
+/**
  * Avant chaque test on néttoie la base
  * Cette opération n'est pas instantanée 
  * Il faut donc attendre qu'elle soit terminée avant de lancer le test.
  */
 beforeEach(done => {
-  mongoose.connection.collections.users.drop(() => {
+  //mongoose lower automatiquement les noms des collections dans ce cas.
+  //c'est donc blogpost au lieux de blogPost
+  const { users, comments, blogposts } = mongoose.connection.collections;
+  users.drop(() => {
     //Ici le code du callback après l'opération drop
     //Une fois drop terminé on peut lancer le test
 
-    //Lorsque le callback done est placé en paramètre mocha attend qu'elle soit appelée
-    //Avant de lancer le test suivant
-    done();
+    comments.drop(() => {
+      blogposts.drop(() => {
+        //Lorsque le callback done est placé en paramètre mocha attend qu'elle soit appelée
+        //Avant de lancer le test suivant
+        done();
+      });
+    });
   });
 });
